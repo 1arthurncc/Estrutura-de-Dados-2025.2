@@ -19,6 +19,34 @@ public class NodoArvore {
         return atual;
     }
 
+    NodoArvore remove(NodoArvore atual, Integer v){
+        if (atual == null) return null;
+        if (v < atual.valor)
+            atual.nodoEsquerda = remove(atual.nodoEsquerda, v);
+        else if (v > atual.valor)
+            atual.nodoDireita = remove(atual.nodoDireita, v);
+        else{
+            if (atual.nodoEsquerda == null && atual.nodoDireita == null)
+                return null;
+            else if (atual.nodoDireita == null)
+                    return atual.nodoEsquerda;
+            else if (atual.nodoEsquerda == null)
+                    return atual.nodoDireita;
+            else {
+                NodoArvore temp = atual.nodoEsquerda;
+                while (temp.nodoDireita != null){
+                    temp = temp.nodoDireita;
+                }
+
+                atual.valor = temp.valor;
+                temp.valor = v;
+                atual.nodoEsquerda = remove(atual.nodoEsquerda, v);
+            }
+        }
+
+        return atual;
+    }
+
     void imprimeSimetrico(NodoArvore a){
         if (a != null){
             System.out.print("<");

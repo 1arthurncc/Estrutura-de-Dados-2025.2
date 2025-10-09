@@ -47,6 +47,17 @@ public class NodoArvore {
         return atual;
     }
 
+    int max(int a, int b){
+        return a > b ? a: b;
+    }
+
+    int altura(NodoArvore a){
+        if (a == null)
+            return -1;
+        else 
+            return 1 + max(altura(a.nodoEsquerda), altura(a.nodoDireita));
+    }
+
     void imprimeSimetrico(NodoArvore a){
         if (a != null){
             System.out.print("<");

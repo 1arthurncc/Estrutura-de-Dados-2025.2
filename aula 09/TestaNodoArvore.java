@@ -8,11 +8,11 @@ public class TestaNodoArvore {
           arv.insereNodo(30);
           arv.insereNodo(23);
           arv.insereNodo(26);
-        
-          arv.imprimePre(null);
           
           arv.removeNodo(28);
           arv.imprimePre(null);
+
+          System.out.println("altura= " + arv.altura());
      //   NodoArvore a = new NodoArvore(28, null, null);
         
     //    a = a.insere(a, 25);

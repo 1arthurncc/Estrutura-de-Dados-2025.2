@@ -1,17 +1,17 @@
-public class NodoArvore {
-    private NodoArvore nodoEsquerda;
-    private NodoArvore nodoDireita;
+public class NodoAVL {
+    private NodoAVL nodoEsquerda;
+    private NodoAVL nodoDireita;
     private Integer valor;
 
-    NodoArvore(Integer valor, NodoArvore esquerda, NodoArvore direita) {
+    NodoAVL(Integer valor, NodoAVL esquerda, NodoAVL direita) {
         this.valor = valor;
         this.nodoEsquerda = esquerda;
         this.nodoDireita = direita;
     }
 
-    NodoArvore insere(NodoArvore atual, Integer v){
+    NodoAVL insere(NodoAVL atual, Integer v){
         if (atual == null)
-            atual = new NodoArvore(v, null, null);
+            atual = new NodoAVL(v, null, null);
         else if (v < atual.valor)
             atual.nodoEsquerda = insere(atual.nodoEsquerda, v);
         else
@@ -19,7 +19,7 @@ public class NodoArvore {
         return atual;
     }
 
-    NodoArvore remove(NodoArvore atual, Integer v){
+    NodoAVL remove(NodoAVL atual, Integer v){
         if (atual == null) return null;
         if (v < atual.valor)
             atual.nodoEsquerda = remove(atual.nodoEsquerda, v);
@@ -33,7 +33,7 @@ public class NodoArvore {
             else if (atual.nodoEsquerda == null)
                     return atual.nodoDireita;
             else {
-                NodoArvore temp = atual.nodoEsquerda;
+                NodoAVL temp = atual.nodoEsquerda;
                 while (temp.nodoDireita != null){
                     temp = temp.nodoDireita;
                 }
@@ -51,54 +51,66 @@ public class NodoArvore {
         return a > b ? a: b;
     }
 
-    int altura(NodoArvore a){
+    int altura(NodoAVL a){
         if (a == null)
             return -1;
         else 
             return 1 + max(altura(a.nodoEsquerda), altura(a.nodoDireita));
     }
 
-    void imprimeSimetrico(NodoArvore a){
+    void imprimeSimetrico(NodoAVL a){
         if (a != null){
             System.out.print("<");
             imprimeSimetrico(a.nodoEsquerda);
             System.out.print(a.valor);
             imprimeSimetrico(a.nodoDireita);
-            System.out.println(">");
+            System.out.print(">");
         }
     }
 
-    void imprimePre(NodoArvore a){
+    void imprimePre(NodoAVL a){
         if (a != null){
             System.out.print("<");
             System.out.print(a.valor);
             imprimePre(a.nodoEsquerda);
             imprimePre(a.nodoDireita);
-            System.out.println(">");
+            System.out.print(">");
         }
     }
 
-    void imprimePos(NodoArvore a){
+    void imprimePos(NodoAVL a){
         if (a != null){
             System.out.print("<");
             imprimePos(a.nodoEsquerda);
             imprimePos(a.nodoDireita);
             System.out.print(a.valor);
-            System.out.println(">");
+            System.out.print(">");
         }
     }
 
-    NodoArvore rotaEsquerda(NodoArvore n){
-        NodoArvore temp = n.nodoDireita;
-        n.nodoDireita = temp.nodoEsquerda;
-        temp.nodoEsquerda = n;
+    NodoAVL rotaEsquerdaDireita(NodoAVL atual){
+        atual.nodoEsquerda = rotaEsquerda(atual.nodoEsquerda);
+        atual = rotaDireita(atual);
+        return atual;
+    }
+
+    NodoAVL rotaDireitaEsquerda(NodoAVL atual){
+        atual.nodoDireita = rotaDireita(atual.nodoDireita);
+        atual = rotaEsquerda(atual);
+        return atual;
+    }
+
+    NodoAVL rotaEsquerda(NodoAVL atual){
+        NodoAVL temp = atual.nodoDireita;
+        atual.nodoDireita = temp.nodoEsquerda;
+        temp.nodoEsquerda = atual;
         return temp;
     }
 
-    NodoArvore rotaDireita(NodoArvore n){
-        NodoArvore temp = n.nodoEsquerda;
-        n.nodoEsquerda = temp.nodoDireita;
-        temp.nodoDireita = n;
+    NodoAVL rotaDireita(NodoAVL atual){
+        NodoAVL temp = atual.nodoEsquerda;
+        atual.nodoEsquerda = temp.nodoDireita;
+        temp.nodoDireita = atual;
         return temp;
     }
 

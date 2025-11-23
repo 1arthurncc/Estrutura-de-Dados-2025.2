@@ -19,12 +19,51 @@ public class NodoAVL {
         return atual;
     }
 
+    NodoAVL insereBalanceado(NodoAVL a, int valor){
+        if (a == null)
+            a = new NodoAVL(valor, null, null);
+        else if (valor < a.valor){
+            a.nodoEsquerda = insereBalanceado(a.nodoEsquerda, valor);
+
+            if (altura(a.nodoEsquerda) - altura(a.nodoDireita) == 2){
+                if (valor < a.nodoEsquerda.valor)
+                    a = rotaDireita(a);
+                else    
+                    a = rotaEsquerdaDireita(a);
+            }
+        }
+        else{
+            a.nodoDireita = insereBalanceado(a.nodoDireita, valor);
+            if (altura(a.nodoEsquerda) - altura(a.nodoDireita) == -2){
+                if (valor > a.nodoDireita.valor)
+                    a = rotaEsquerda(a);
+                else    
+                    a = rotaDireitaEsquerda(a);
+            }
+        }
+        return a;
+    }
+
     NodoAVL remove(NodoAVL atual, Integer v){
         if (atual == null) return null;
-        if (v < atual.valor)
+        if (v < atual.valor){
             atual.nodoEsquerda = remove(atual.nodoEsquerda, v);
+            if (altura(atual.nodoEsquerda) - altura(atual.nodoDireita) == -2)
+                if (altura(atual.nodoDireita.nodoEsquerda) -
+                    altura(atual.nodoDireita.nodoDireita) == -1)
+                    atual = rotaEsquerda(atual);
+                else    
+                    atual = rotaDireitaEsquerda(atual);
+        }
         else if (v > atual.valor)
             atual.nodoDireita = remove(atual.nodoDireita, v);
+            if (altura(atual.nodoEsquerda) - altura(atual.nodoDireita) == 2){
+                if (altura(atual.nodoEsquerda.nodoEsquerda) - 
+                    altura(atual.nodoEsquerda.nodoDireita) == 1)
+                    atual = rotaDireita(atual);
+                else    
+                    atual = rotaEsquerdaDireita(atual);
+            }
         else{
             if (atual.nodoEsquerda == null && atual.nodoDireita == null)
                 return null;
